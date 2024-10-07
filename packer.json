@@ -1,25 +1,32 @@
 {
   "variables": {
-    "source_ami": "{{user `source_ami_id`}}",
-    "instance_type": "t2.micro",
-    "region": "us-east-1"
+    "aws_region": "us-east-1",
+    "source_ami_id": "{{user `source_ami_id`}}",
+    "instance_type": "t2.micro"
   },
   "builders": [
     {
       "type": "amazon-ebs",
-      "ami_name": "web-app-updated-{{timestamp}}",
+      "region": "{{user `aws_region`}}",
       "instance_type": "{{user `instance_type`}}",
-      "source_ami": "{{user `source_ami`}}",
-      "ssh_username": "ec2-user",
-      "region": "{{user `region`}}"
+      "source_ami": "{{user `source_ami_id`}}",
+      "ssh_username": "ec2-user",  // Use 'ubuntu' for Ubuntu AMIs
+      "ami_name": "web-app-updated-{{timestamp}}",
+      "ami_description": "AMI with Docker and web app"
     }
   ],
   "provisioners": [
     {
       "type": "shell",
       "inline": [
-        "sudo docker build -t my-web-app /var/www/html",
-        "sudo docker run -d -p 80:80 my-web-app"
+        "sudo yum update -y",  // Use `apt-get update` for Ubuntu AMIs
+        "sudo yum install -y docker",  // Install Docker (replace with `apt-get` for Ubuntu)
+        "sudo service docker start",  // Start Docker service
+        "sudo usermod -aG docker ec2-user",  // Add user to Docker group (use 'ubuntu' for Ubuntu AMIs)
+        "sudo systemctl enable docker",  // Enable Docker on startup
+        "docker --version",  // Verify Docker installation
+        "sudo docker build -t my-web-app . ",
+        "sudo docker run -d -p 80:80 my-web-app"  // Run the Docker container
       ]
     }
   ]
