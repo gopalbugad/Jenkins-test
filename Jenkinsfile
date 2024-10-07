@@ -4,7 +4,7 @@ pipeline {
         AWS_DEFAULT_REGION = 'us-east-1'
         PACKER_TEMPLATE = 'packer.json'
         REPO_URL = 'https://github.com/gopalbugad/Jenkins-test.git'
-        ASG_NAME = 'your-asg-name'  // Specify your ASG name here
+        ASG_NAME = 'web-app'  // Specify your ASG name here
     }
     stages {
         stage('Checkout Code') {
