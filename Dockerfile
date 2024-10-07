@@ -1,4 +1,5 @@
+# Use a lightweight web server
 FROM nginx:alpine
-WORKDIR /usr/share/nginx/html/
+
+# Copy HTML file into the web server directory
 COPY index.html /usr/share/nginx/html/index.html
-COPY Dockerfile .
