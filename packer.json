@@ -25,36 +25,3 @@
 }
 
 
-/*{
-  "variables": {
-    "aws_region": "us-east-1",
-    "source_ami_id": "{{user `source_ami_id`}}",
-    "instance_type": "t2.micro"
-  },
-  "builders": [
-    {
-      "type": "amazon-ebs",
-      "region": "{{user `aws_region`}}",
-      "instance_type": "{{user `instance_type`}}",
-      "source_ami": "{{user `source_ami_id`}}",
-      "ssh_username": "ec2-user",  
-      "ami_name": "web-app-updated-{{timestamp}}",
-      "ami_description": "AMI with Docker and web app"
-    }
-  ],
-  "provisioners": [
-    {
-      "type": "shell",
-      "inline": [
-        "sudo yum update -y",  
-        "sudo yum install -y docker",  
-        "sudo service docker start", 
-        "sudo usermod -aG docker ec2-user",  
-        "sudo systemctl enable docker",  
-        "docker --version",  
-        "sudo docker build -t my-web-app . ",
-        "sudo docker run -d -p 80:80 my-web-app" 
-      ]
-    }
-  ]
-}*/
